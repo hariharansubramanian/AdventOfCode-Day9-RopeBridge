@@ -10,9 +10,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Update="head_movements.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="motion_instructions.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

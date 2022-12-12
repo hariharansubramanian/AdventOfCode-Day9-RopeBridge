@@ -1,65 +1,19 @@
-﻿Console.WriteLine("Analysing head movements...");
-var moves = File.ReadAllLines("head_movements.txt");
+﻿using RopeBridge_AdventOfCodeDay9.Models;
 
-var headPosition = (X: 0, Y: 0);
-var tailPosition = (X: 0, Y: 0);
+Console.WriteLine("Analysing movements...");
+var instructions = File.ReadAllLines("motion_instructions.txt");
 
-var headVisited = new HashSet<(int X, int Y)> {headPosition};
-var tailVisited = new HashSet<(int x, int y)> {tailPosition};
+/*================== Puzzle 1 =================*/
+var rope = new Rope(2);
+rope.PerformMotions(instructions);
+var tail = rope.Knots.Last();
 
-// Puzzle 1
-foreach (var move in moves)
-{
-    var instruction = move.Split(" ");
-    var direction = instruction[0];
-    var steps = int.Parse(instruction[1]);
+Console.WriteLine($"Tail visited {tail.Visited.Count} unique positions.");
 
-    for (var i = 0; i < steps; i++)
-    {
-        // Move head
-        switch (direction)
-        {
-            case "L":
-                headPosition.X--;
-                break;
-            case "R":
-                headPosition.X++;
-                break;
-            case "U":
-                headPosition.Y++;
-                break;
-            case "D":
-                headPosition.Y--;
-                break;
-        }
+/*================== Puzzle 2 =================*/
+rope = new Rope(10);
+rope.PerformMotions(instructions);
+tail = rope.Knots.Last();
 
-        headVisited.Add(headPosition);
-
-        // Move tail to follow head
-        if (Math.Abs(headPosition.X - tailPosition.X) >= 2 || Math.Abs(headPosition.Y - tailPosition.Y) >= 2)
-        {
-            if (headPosition.X == tailPosition.X) // if same row, move across column
-            {
-                if (headPosition.Y > tailPosition.Y) tailPosition.Y++;
-                else tailPosition.Y--;
-            }
-            else if (headPosition.Y == tailPosition.Y) // if same column, move across row
-            {
-                if (headPosition.X > tailPosition.X) tailPosition.X++;
-                else tailPosition.X--;
-            }
-            else // move diagonally
-            {
-                if (headPosition.X > tailPosition.X) tailPosition.X++;
-                else tailPosition.X--;
-
-                if (headPosition.Y > tailPosition.Y) tailPosition.Y++;
-                else tailPosition.Y--;
-            }
-        }
-
-        tailVisited.Add(tailPosition);
-    }
-}
-
-Console.WriteLine($"Tail visited {tailVisited.Count} unique positions.");
+Console.WriteLine($"The last tail visited {tail.Visited.Count} unique positions.");
+Console.WriteLine("Finished performing movements");
